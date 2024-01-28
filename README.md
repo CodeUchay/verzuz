@@ -1,3 +1,19 @@
+## Home Page
+![WhatsApp Image 2024-01-28 at 12 22 47_9d006845](https://github.com/CodeUchay/verzuz/assets/121253428/4e95adba-16a5-4621-aafb-28df7980320a)
+
+## Create Battle Page
+![image](https://github.com/CodeUchay/verzuz/assets/121253428/e03ad069-19b9-47eb-a5f1-af4faa0714b5)
+
+## Voting Page
+![WhatsApp Image 2024-01-28 at 12 22 06_d29e7222](https://github.com/CodeUchay/verzuz/assets/121253428/c9a6c3c1-b8fc-4bca-8abe-01c8e7ccd5af)
+
+## Registeration Page 
+![WhatsApp Image 2024-01-28 at 12 24 36_12467259](https://github.com/CodeUchay/verzuz/assets/121253428/b646f789-69f3-4ba5-8265-808ed26ce05e)
+
+## Admin Page
+![WhatsApp Image 2024-01-28 at 12 26 24_ae2c3786](https://github.com/CodeUchay/verzuz/assets/121253428/5e5e0b63-d5ac-4913-8c70-95343b47f2eb)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
