@@ -35,7 +35,7 @@ function Vote() {
   const [opponent1Votes, setOpponent1Votes] = useState();
   const [opponent2Votes, setOpponent2Votes] = useState();
   const [votingList, setVotingList] = useState();
-  
+
   function logout() {
     localStorage.removeItem("userData");
   }
@@ -176,7 +176,7 @@ function Vote() {
         <Link to="/">Verzuz</Link>
         <div>
           {user ? (
-            <span className="border border-lime-800 px-2 py-1 rounded text-white">
+            <span className="border border-orange-500 px-2 py-1 rounded text-white">
               Welcome, {user.username}{" "}
             </span>
           ) : (
@@ -196,9 +196,14 @@ function Vote() {
               <form onSubmit={(e) => castVote(e)} className="mt-2">
                 <h1 className="text-center mt-3 p-3">
                   {activeRound ? (
+                    <div className="flex flex-col">
+                    <span className="px-20 py-2">
+                     {activeRound.round}{" "}
+                  </span>
                     <span className="px-20 py-2">
                       Title: {activeRound.name}{" "}
                     </span>
+                    </div>
                   ) : (
                     <></>
                   )}
@@ -261,14 +266,14 @@ function Vote() {
           </h1>
           <hr />
           {opponent1Votes > 1 || opponent2Votes > 1 ? (
-            <div>
-              <div className="flex justify-center items-center">
+            <div className="">
+              <div className="flex justify-center items-center mt-3">
                 <h1>{currentBattle.opponent1}'s Votes: {" "}</h1>
-                <p>{opponent1Votes}</p>
+                <p className="ml-2 rounded-full bg-white px-2 text-black font-bold">{opponent1Votes}</p>
               </div>
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center mt-3">
                 <h1>{currentBattle.opponent2}'s Votes: {" "}</h1>
-                <p>{opponent2Votes}</p>
+                <p className="ml-2 rounded-full bg-white px-2 text-black font-bold">{opponent2Votes}</p>
               </div>
             </div>
           ) : (
