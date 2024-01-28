@@ -26,14 +26,13 @@ function Add() {
     e.preventDefault()
     if (password === code){
         for(let i = 1; i<=round; i++){
-            rounds.push({name: `Round${i}`, active: 0})
+            rounds.push({round: `Round ${i}`, name: "", active: 0})
         }
        console.log("rounds created")    
         try {
           const uniqueId = generateUniqueId(5); // Implement your logic to generate a unique ID
           // const barcodeUrl = await generateQRCode(uniqueId); // Implement your logic to generate the barcode URL
     
-         
           await addDoc(collection(db, "battles"), {
             opponent1: name1,
             opponent2: name2,
