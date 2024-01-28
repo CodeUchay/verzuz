@@ -184,7 +184,7 @@ function Vote() {
 
   return (
     <div>
-      <nav className="p-5 flex justify-between items-center">
+      <nav className="p-5 px-6 flex justify-between items-center border-b border-b-gray-400 '">
       <Link to="/" className="font-bold flex flex-row justify-center items-center text-lg">Verzuz <GiBoxingGlove size={20} className="ml-1"/></Link>
         <div>
           {user ? (
@@ -196,7 +196,6 @@ function Vote() {
           )}
         </div>
       </nav>
-      <hr />
       {user ? (
         <div className="flex flex-col justify-center items-center">
           <h1 className="text-center mt-3 p-3">
