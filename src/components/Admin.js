@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
-  addDoc,
-  getDoc,
   collection,
   getDocs,
-  deleteDoc,
-  doc,
-  query,
-  where,
+  
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate, Link } from "react-router-dom";
 import RoundList from "./Round";
+import {GiBoxingGlove } from 'react-icons/gi'
 
 function Battles() {
   const [battles, setBattles] = useState([]);
@@ -41,7 +37,7 @@ function Battles() {
   return (
     <>
     <nav className='p-5 flex justify-between items-center'>
-        <span >Verzuz</span>
+    <Link to="/" className="font-bold flex flex-row justify-center items-center text-lg">Verzuz <GiBoxingGlove size={20} className="ml-1"/></Link>
         <Link to="/add" className='bg-lime-500 px-2 py-1 rounded text-white'>Create</Link>
     </nav>
     <hr/>

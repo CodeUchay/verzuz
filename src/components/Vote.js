@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import {GiBoxingGlove } from 'react-icons/gi'
 import {
   addDoc,
-  getDoc,
   collection,
   getDocs,
-  deleteDoc,
-  doc,
-  query,
-  where,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -35,6 +31,7 @@ function Vote() {
   const [opponent1Votes, setOpponent1Votes] = useState();
   const [opponent2Votes, setOpponent2Votes] = useState();
   const [votingList, setVotingList] = useState();
+  const [chartData, setChartData] = useState([]);
 
   function logout() {
     localStorage.removeItem("userData");
@@ -118,8 +115,15 @@ function Vote() {
     setOpponent1Votes(sum1);
     setOpponent2Votes(sum2);
     
+    let chartData = [
+      {name: currentBattle.opponent1, value: sum1},
+      {name: currentBattle.opponent2, value: sum2}
+    ];
+    setChartData(chartData);
+
   };
 
+  
   useEffect(() => {
     if (currentBattle) {
       getAllVotes();
@@ -128,7 +132,12 @@ function Vote() {
 
   const castVote = async (e) => {
     e.preventDefault();
-    if (voted === false) {
+    const previousDateTime = localStorage.getItem("verzuzVoting")
+    const currentDateTime = Date.now();
+
+    console.log(previousDateTime)
+    console.log("old>>>>> ", Number(previousDateTime) + (3 * 60 * 1000))
+    if (Number(previousDateTime) + (3 * 60 * 1000) < Number(currentDateTime)) {
       if (
         vote1Value > -1 &&
         vote1Value < 11 &&
@@ -156,8 +165,10 @@ function Vote() {
             vote2: vote2,
           });
 
+          const date =  Date.now()
+          localStorage.setItem("verzuzVoting", date);
           console.log("Vote Casted");
-          alert(`Casted Successfully!`);
+          alert(`Vote Casted Successfully! Wait for next round`);
           navigate("/");
         } catch (error) {
           console.error("Error creating event:", error);
@@ -166,14 +177,15 @@ function Vote() {
         setCheckRange(true);
       }
     } else {
-      alert("You're not authorized");
+      alert("You've Voted Already!!!");
+      navigate("/");
     }
   };
 
   return (
     <div>
       <nav className="p-5 flex justify-between items-center">
-        <Link to="/">Verzuz</Link>
+      <Link to="/" className="font-bold flex flex-row justify-center items-center text-lg">Verzuz <GiBoxingGlove size={20} className="ml-1"/></Link>
         <div>
           {user ? (
             <span className="border border-orange-500 px-2 py-1 rounded text-white">
@@ -235,8 +247,6 @@ function Vote() {
                         required
                       />
                     </div>
-
-                   
                   </div>
                   <div>
                       {checkRange ? (
@@ -254,17 +264,17 @@ function Vote() {
                       <span className="text-white">Vote</span>
                     </button>
                 </div>
-                
               </form>
             ) : (
               <p>No active round</p>
             )}
           </div>
-
           <h1 className="text-center mt-3 p-3">
             <span className="border-b-2 px-20 py-2">Total Votes</span>
           </h1>
           <hr />
+          {chartData.length>0 ? ( <div className="bg-white"> 
+    </div>):(<></>)}
           {opponent1Votes > 1 || opponent2Votes > 1 ? (
             <div className="">
               <div className="flex justify-center items-center mt-3">

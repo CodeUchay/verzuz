@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
     db,
-    storage,
   } from "../firebase";
   import {
     addDoc,
     collection,
   } from "firebase/firestore";
+  import {GiBoxingGlove } from 'react-icons/gi'
 
 function Add() {
   const [name1, setName1] = useState("");
@@ -74,10 +74,8 @@ function Add() {
   return (
     <div>
       <nav className="p-5 flex justify-between items-center">
-      <Link to="/" className="">
-      Verzuz
-    </Link>
-      </nav>
+      <Link to="/" className="font-bold flex flex-row justify-center items-center text-lg">Verzuz <GiBoxingGlove size={20} className="ml-1"/></Link>
+        </nav>
       <hr />
       <div className="m-5 lg:px-16 lg:py-5 text-white">
         <div className=" mx-auto mt-5 text-xs flex flex-col gap-2 rounded p-4 lg:p-7 w-full max-w-sm shadow-xl">
