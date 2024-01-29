@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import {GiBoxingGlove } from 'react-icons/gi'
-import {
-  addDoc,
-  collection,
-  getDocs,
-} from "firebase/firestore";
+import { GiBoxingGlove } from "react-icons/gi";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-
 
 function Vote() {
   let { id } = useParams();
@@ -102,6 +97,7 @@ function Vote() {
     console.log("All:", votingList);
     console.log("Filtered:", sortedList);
     setAllVotes(sortedList);
+    console.log(sortedList)
 
     let sum1 = 0;
     let sum2 = 0;
@@ -114,16 +110,14 @@ function Vote() {
     console.log("voter1 sum", sum1);
     setOpponent1Votes(sum1);
     setOpponent2Votes(sum2);
-    
+
     let chartData = [
-      {name: currentBattle.opponent1, value: sum1},
-      {name: currentBattle.opponent2, value: sum2}
+      { name: currentBattle.opponent1, value: sum1 },
+      { name: currentBattle.opponent2, value: sum2 },
     ];
     setChartData(chartData);
-
   };
 
-  
   useEffect(() => {
     if (currentBattle) {
       getAllVotes();
@@ -132,12 +126,12 @@ function Vote() {
 
   const castVote = async (e) => {
     e.preventDefault();
-    const previousDateTime = localStorage.getItem("verzuzVoting")
+    const previousDateTime = localStorage.getItem("verzuzVoting");
     const currentDateTime = Date.now();
 
-    console.log(previousDateTime)
-    console.log("old>>>>> ", Number(previousDateTime) + (3 * 60 * 1000))
-    if (Number(previousDateTime) + (3 * 60 * 1000) < Number(currentDateTime)) {
+    console.log(previousDateTime);
+    console.log("old>>>>> ", Number(previousDateTime) + 3 * 60 * 1000);
+    if (Number(previousDateTime) + 3 * 60 * 1000 < Number(currentDateTime)) {
       if (
         vote1Value > -1 &&
         vote1Value < 11 &&
@@ -152,7 +146,7 @@ function Vote() {
             opponent1: currentBattle.opponent1,
             vote: Number(vote1Value) || 0,
           };
-          
+
           const vote2 = {
             opponent2: currentBattle.opponent2,
             vote: Number(vote2Value) || 0,
@@ -165,7 +159,7 @@ function Vote() {
             vote2: vote2,
           });
 
-          const date =  Date.now()
+          const date = Date.now();
           localStorage.setItem("verzuzVoting", date);
           console.log("Vote Casted");
           alert(`Vote Casted Successfully! Wait for next round`);
@@ -185,7 +179,12 @@ function Vote() {
   return (
     <div>
       <nav className="p-5 px-6 flex justify-between items-center border-b border-b-gray-400 '">
-      <Link to="/" className="font-bold flex flex-row justify-center items-center text-lg">Verzuz <GiBoxingGlove size={20} className="ml-1"/></Link>
+        <Link
+          to="/"
+          className="font-bold flex flex-row justify-center items-center text-lg"
+        >
+          Verzuz <GiBoxingGlove size={20} className="ml-1" />
+        </Link>
         <div>
           {user ? (
             <span className="border border-orange-500 px-2 py-1 rounded text-white">
@@ -208,19 +207,17 @@ function Vote() {
                 <h1 className="text-center mt-3 p-3">
                   {activeRound ? (
                     <div className="flex flex-col">
-                    <span className="px-20 py-2">
-                     {activeRound.round}{" "}
-                  </span>
-                    <span className="px-20 py-2">
-                      Title: {activeRound.name}{" "}
-                    </span>
+                      <span className="px-20 py-2">{activeRound.round} </span>
+                      <span className="px-20 py-2">
+                        Title: {activeRound.name}{" "}
+                      </span>
                     </div>
                   ) : (
                     <></>
                   )}
                 </h1>
                 <div className="flex flex-col justify-center items-center gap-4">
-                  <div className="flex  flex-row justify-center items-center gap-4">
+                  <div className="flex flex-row justify-center items-center gap-4">
                     <div>
                       <label htmlFor="vote1Value" className="block text-sm ">
                         {currentBattle.opponent1}
@@ -246,49 +243,87 @@ function Vote() {
                         required
                       />
                     </div>
+                   
                   </div>
+                  <p className="text-xs"> <b>Hint:</b> 0 - 10 votes each opponent &#128512;</p>
                   <div>
-                      {checkRange ? (
-                        <p className="text-red-600 text-xs font-extralight">
-                          Enter Valid Range between 0 and 10
-                        </p>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                    <button
-                      type="submit"
-                      className="inline-flex justify-center w-40  rounded-lg text-sm py-2.5 px-4 bg-orange-600 hover:bg-orange-700 "
-                    >
-                      <span className="text-white">Vote</span>
-                    </button>
+                    {checkRange ? (
+                      <p className="text-red-600 text-xs font-extralight">
+                        Enter Valid Range between 0 and 10
+                      </p>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    className="inline-flex justify-center w-40  rounded-lg text-sm py-2.5 px-4 bg-orange-600 hover:bg-orange-700 "
+                  >
+                    <span className="text-white">Vote</span>
+                  </button>
                 </div>
               </form>
             ) : (
               <p>No active round</p>
             )}
           </div>
-          <h1 className="text-center mt-3 p-3">
+          <h1 className="text-center mt-5 p-3">
             <span className="border-b-2 px-20 py-2">Total Votes</span>
           </h1>
           <hr />
-          {chartData.length>0 ? ( <div className="bg-white"> 
-    </div>):(<></>)}
+          {chartData.length > 0 ? <div className="bg-white"></div> : <></>}
           {opponent1Votes > 1 || opponent2Votes > 1 ? (
             <div className="">
               <div className="flex justify-center items-center mt-3">
-                <h1>{currentBattle.opponent1}'s Votes: {" "}</h1>
-                <p className="ml-2 rounded-full bg-white px-2 text-black font-bold">{opponent1Votes}</p>
+                <h1>{currentBattle.opponent1}'s Votes: </h1>
+                <p className="ml-2 rounded-full bg-white px-2 text-black font-bold">
+                  {opponent1Votes}
+                </p>
               </div>
               <div className="flex justify-center items-center mt-3">
-                <h1>{currentBattle.opponent2}'s Votes: {" "}</h1>
-                <p className="ml-2 rounded-full bg-white px-2 text-black font-bold">{opponent2Votes}</p>
+                <h1>{currentBattle.opponent2}'s Votes: </h1>
+                <p className="ml-2 rounded-full bg-white px-2 text-black font-bold">
+                  {opponent2Votes}
+                </p>
               </div>
             </div>
           ) : (
             <></>
           )}
+          <h1 className="text-center mt-5 p-3">
+            <span className="border-b-2 px-20 py-2">Voters Table</span>
+          </h1>
+          <hr />
+          {/* Voting Table */}
+          
+         <table className=" mt-2">
+         <thead>
+           <tr>
+             <th className="border p-2">No</th>
+             <th className="border p-2"> Name</th>
+             <th className="border p-2">{currentBattle.opponent1}</th>
+             <th className="border p-2">{currentBattle.opponent2}</th>
+           </tr>
+         </thead>
+         <tbody>
+         {allVotes.length > 1 ? (
+  allVotes.map((vote, index) => (
+    <tr className="border-b-2" key={index}>
+      <td className="text-center font-semibold">{index}</td>
+      <td className="px-3">{vote.username.username}</td>
+      <td className="p-3">{vote.vote1.vote}</td>
+      <td className="px-4">{vote.vote2.vote}</td>
+    </tr>
+  ))
+) : (
+  <></>
+)} 
+         </tbody>
+       </table>
         </div>
+        
+        
       ) : (
         <div className="flex flex-col justify-start items-center  mt-6">
           <label htmlFor="username" className="block text-left leading-6 ">
