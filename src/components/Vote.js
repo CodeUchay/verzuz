@@ -32,7 +32,7 @@ function Vote() {
     localStorage.removeItem("verzusUserData");
     navigate("/");
   }
-  
+
   useEffect(() => {
     const data = getUserData();
     if (data) {
@@ -182,9 +182,10 @@ function Vote() {
         <div>
           {user ? (
             <>   
-            <button  onClick={(e) => logout(e)} className="bg-orange-500 px-2 py-1 rounded ">
+            {/* <button  onClick={(e) => logout(e)} className="bg-red-500 px-2 py-1 rounded mr-2">
               logout
-            </button>         <span className="border border-orange-500 px-2 py-1 rounded text-white">
+            </button>          */}
+            <span className="border border-orange-500 px-2 py-1 rounded text-white">
               Welcome, {user.username}{" "}
             </span>
             
