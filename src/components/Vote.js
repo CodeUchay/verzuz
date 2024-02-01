@@ -87,15 +87,11 @@ function Vote() {
     querySnapshot.forEach((doc) => {
       votingList.push({ id: doc.id, ...doc.data() });
     });
-
-    const sortedList = [];
-    for (let i = 0; i < votingList.length; i++) {
-      if (votingList[i].battleId == currentBattle.id) {
-        sortedList.push(votingList[i]);
-      }
-    }
-    console.log("All:", votingList);
-    console.log("Filtered:", sortedList);
+  
+    const sortedList = votingList
+      .filter((vote) => vote.battleId === currentBattle.id)
+      .sort((a, b) => new Date(a.time) - new Date(b.time));
+  
     setAllVotes(sortedList);
     console.log(sortedList);
 
@@ -107,7 +103,7 @@ function Vote() {
       sum2 += +sortedList[i].vote2.vote;
     }
     console.log("voter1 sum", sum1);
-    console.log("voter1 sum", sum1);
+    console.log("voter2 sum2", sum2);
     setOpponent1Votes(sum1);
     setOpponent2Votes(sum2);
 
@@ -129,7 +125,7 @@ function Vote() {
     const previousDateTime = localStorage.getItem("verzuzVoting");
     const currentDateTime = Date.now();
     const totalCastedVote = Number(vote1Value) + Number(vote2Value);
-    
+
     if (totalCastedVote === 10) {
       setCheckRange(false);
       console.log("rounds created");
@@ -150,6 +146,8 @@ function Vote() {
             username: user,
             vote1: vote1,
             vote2: vote2,
+            round: activeRound.round, // Add round information
+            time: new Date().toISOString(),
           });
 
           const date = Date.now();
@@ -292,11 +290,12 @@ function Vote() {
           <hr />
           {/* Voting Table */}
 
-          <table className=" mt-2">
+          <table className=" mt-2 text-xs">
             <thead>
               <tr>
                 <th className="border p-2">No</th>
                 <th className="border p-2"> Name</th>
+                <th className="border p-2"> Round</th>
                 <th className="border p-2">{currentBattle.opponent1}</th>
                 <th className="border p-2">{currentBattle.opponent2}</th>
               </tr>
@@ -305,8 +304,9 @@ function Vote() {
               {allVotes.length > 1 ? (
                 allVotes.map((vote, index) => (
                   <tr className="border-b-2" key={index}>
-                    <td className="text-center font-semibold">{index}</td>
+                    <td className="text-center font-semibold">{index +1}</td>
                     <td className="px-3">{vote.username.username}</td>
+                    <td className="px-3">{vote.round}</td>
                     <td className="p-3">{vote.vote1.vote}</td>
                     <td className="px-4">{vote.vote2.vote}</td>
                   </tr>
