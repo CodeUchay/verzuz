@@ -29,8 +29,10 @@ function Vote() {
   const [chartData, setChartData] = useState([]);
 
   function logout() {
-    localStorage.removeItem("userData");
+    localStorage.removeItem("verzusUserData");
+    navigate("/");
   }
+  
   useEffect(() => {
     const data = getUserData();
     if (data) {
@@ -167,6 +169,7 @@ function Vote() {
     }
   };
 
+  
   return (
     <div>
       <nav className="p-5 px-6 flex justify-between items-center border-b border-b-gray-400 '">
@@ -178,9 +181,15 @@ function Vote() {
         </Link>
         <div>
           {user ? (
-            <span className="border border-orange-500 px-2 py-1 rounded text-white">
+            <>   
+            <button  onClick={(e) => logout(e)} className="bg-orange-500 px-2 py-1 rounded ">
+              logout
+            </button>         <span className="border border-orange-500 px-2 py-1 rounded text-white">
               Welcome, {user.username}{" "}
             </span>
+            
+            </>
+
           ) : (
             <p></p>
           )}
