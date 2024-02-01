@@ -97,7 +97,7 @@ function Vote() {
     console.log("All:", votingList);
     console.log("Filtered:", sortedList);
     setAllVotes(sortedList);
-    console.log(sortedList)
+    console.log(sortedList);
 
     let sum1 = 0;
     let sum2 = 0;
@@ -128,19 +128,12 @@ function Vote() {
     e.preventDefault();
     const previousDateTime = localStorage.getItem("verzuzVoting");
     const currentDateTime = Date.now();
-
-    console.log(previousDateTime);
-    console.log("old>>>>> ", Number(previousDateTime) + 3 * 60 * 1000);
-    if (Number(previousDateTime) + 3 * 60 * 1000 < Number(currentDateTime)) {
-      if (
-        vote1Value > -1 &&
-        vote1Value < 11 &&
-        vote2Value > -1 &&
-        vote2Value < 11
-      ) {
-        setCheckRange(false);
-        console.log("rounds created");
-
+    const totalCastedVote = Number(vote1Value) + Number(vote2Value);
+    
+    if (totalCastedVote === 10) {
+      setCheckRange(false);
+      console.log("rounds created");
+      if (Number(previousDateTime) + 3 * 60 * 1000 < Number(currentDateTime)) {
         try {
           const vote1 = {
             opponent1: currentBattle.opponent1,
@@ -168,11 +161,11 @@ function Vote() {
           console.error("Error creating event:", error);
         }
       } else {
-        setCheckRange(true);
+        alert("You've Voted Already!!!");
+        navigate("/");
       }
     } else {
-      alert("You've Voted Already!!!");
-      navigate("/");
+      setCheckRange(true);
     }
   };
 
@@ -243,19 +236,21 @@ function Vote() {
                         required
                       />
                     </div>
-                   
                   </div>
-                  <p className="text-xs"> <b>Hint:</b> 0 - 10 votes each opponent &#128512;</p>
+                  <p className="text-xs">
+                    {" "}
+                    <b>Hint:</b> Divide 10 votes accross opponents &#128512;
+                  </p>
                   <div>
                     {checkRange ? (
                       <p className="text-red-600 text-xs font-extralight">
-                        Enter Valid Range between 0 and 10
+                        Total votes should equal 10
                       </p>
                     ) : (
                       <></>
                     )}
                   </div>
-                  
+
                   <button
                     type="submit"
                     className="inline-flex justify-center w-40  rounded-lg text-sm py-2.5 px-4 bg-orange-600 hover:bg-orange-700 "
@@ -296,34 +291,32 @@ function Vote() {
           </h1>
           <hr />
           {/* Voting Table */}
-          
-         <table className=" mt-2">
-         <thead>
-           <tr>
-             <th className="border p-2">No</th>
-             <th className="border p-2"> Name</th>
-             <th className="border p-2">{currentBattle.opponent1}</th>
-             <th className="border p-2">{currentBattle.opponent2}</th>
-           </tr>
-         </thead>
-         <tbody>
-         {allVotes.length > 1 ? (
-  allVotes.map((vote, index) => (
-    <tr className="border-b-2" key={index}>
-      <td className="text-center font-semibold">{index}</td>
-      <td className="px-3">{vote.username.username}</td>
-      <td className="p-3">{vote.vote1.vote}</td>
-      <td className="px-4">{vote.vote2.vote}</td>
-    </tr>
-  ))
-) : (
-  <></>
-)} 
-         </tbody>
-       </table>
+
+          <table className=" mt-2">
+            <thead>
+              <tr>
+                <th className="border p-2">No</th>
+                <th className="border p-2"> Name</th>
+                <th className="border p-2">{currentBattle.opponent1}</th>
+                <th className="border p-2">{currentBattle.opponent2}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allVotes.length > 1 ? (
+                allVotes.map((vote, index) => (
+                  <tr className="border-b-2" key={index}>
+                    <td className="text-center font-semibold">{index}</td>
+                    <td className="px-3">{vote.username.username}</td>
+                    <td className="p-3">{vote.vote1.vote}</td>
+                    <td className="px-4">{vote.vote2.vote}</td>
+                  </tr>
+                ))
+              ) : (
+                <></>
+              )}
+            </tbody>
+          </table>
         </div>
-        
-        
       ) : (
         <div className="flex flex-col justify-start items-center  mt-6">
           <label htmlFor="username" className="block text-left leading-6 ">
