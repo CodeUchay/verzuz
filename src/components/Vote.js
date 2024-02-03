@@ -25,8 +25,7 @@ function Vote() {
   const [allVotes, setAllVotes] = useState([]);
   const [opponent1Votes, setOpponent1Votes] = useState();
   const [opponent2Votes, setOpponent2Votes] = useState();
-  const [votingList, setVotingList] = useState();
-  const [chartData, setChartData] = useState([]);
+  const [roundVotes, setRoundVotes] = useState([]);
 
   function logout() {
     localStorage.removeItem("verzusUserData");
@@ -89,11 +88,11 @@ function Vote() {
     querySnapshot.forEach((doc) => {
       votingList.push({ id: doc.id, ...doc.data() });
     });
-  
+
     const sortedList = votingList
       .filter((vote) => vote.battleId === currentBattle.id)
       .sort((a, b) => new Date(a.time) - new Date(b.time));
-  
+
     setAllVotes(sortedList);
     console.log(sortedList);
 
@@ -109,11 +108,35 @@ function Vote() {
     setOpponent1Votes(sum1);
     setOpponent2Votes(sum2);
 
-    let chartData = [
-      { name: currentBattle.opponent1, value: sum1 },
-      { name: currentBattle.opponent2, value: sum2 },
-    ];
-    setChartData(chartData);
+    // Calculate total votes per opponent per round
+    const roundVoteTotals = {};
+    sortedList.forEach((vote) => {
+      const { round, vote1, vote2 } = vote;
+
+      if (!roundVoteTotals[round]) {
+        roundVoteTotals[round] = {
+          [currentBattle.opponent1]: 0,
+          [currentBattle.opponent2]: 0,
+        };
+      }
+
+      roundVoteTotals[round][vote1.opponent1] += vote1.vote;
+      roundVoteTotals[round][vote2.opponent2] += vote2.vote;
+    });
+
+    // Update the state with total votes per opponent per round
+    setRoundVotes(
+      Object.entries(roundVoteTotals).map(([round, totals]) => ({
+        round,
+        totals: Object.values(totals),
+      }))
+    );
+    console.log(
+      Object.entries(roundVoteTotals).map(([round, totals]) => ({
+        round,
+        totals: Object.values(totals),
+      }))
+    );
   };
 
   useEffect(() => {
@@ -169,7 +192,6 @@ function Vote() {
     }
   };
 
-  
   return (
     <div>
       <nav className="p-5 px-6 flex justify-between items-center border-b border-b-gray-400 '">
@@ -181,16 +203,14 @@ function Vote() {
         </Link>
         <div>
           {user ? (
-            <>   
-            {/* <button  onClick={(e) => logout(e)} className="bg-red-500 px-2 py-1 rounded mr-2">
+            <>
+              {/* <button  onClick={(e) => logout(e)} className="bg-red-500 px-2 py-1 rounded mr-2">
               logout
             </button>          */}
-            <span className="border border-orange-500 px-2 py-1 rounded text-white">
-              Welcome, {user.username}{" "}
-            </span>
-            
+              <span className=" bg-orange-700 px-2 py-1 rounded text-white">
+                Welcome, {user.username}
+              </span>
             </>
-
           ) : (
             <p></p>
           )}
@@ -199,7 +219,9 @@ function Vote() {
       {user ? (
         <div className="flex flex-col justify-center items-center">
           <h1 className="text-center mt-3 p-3">
-            <span className="border-b-2 px-20 py-2">Active Round</span>
+            <span className="border-b-2 px-20 py-2 font-bold">
+              Active Round
+            </span>
           </h1>
           {/* Cast Vote */}
           <div>
@@ -272,10 +294,10 @@ function Vote() {
             )}
           </div>
           <h1 className="text-center mt-5 p-3">
-            <span className="border-b-2 px-20 py-2">Total Votes</span>
+            <span className="border-b-2 px-20 py-2 font-bold">Total Votes</span>
           </h1>
           <hr />
-          {chartData.length > 0 ? <div className="bg-white"></div> : <></>}
+
           {opponent1Votes > 1 || opponent2Votes > 1 ? (
             <div className="">
               <div className="flex justify-center items-center mt-3">
@@ -294,8 +316,11 @@ function Vote() {
           ) : (
             <></>
           )}
+
           <h1 className="text-center mt-5 p-3">
-            <span className="border-b-2 px-20 py-2">Voters Table</span>
+            <span className="border-b-2 px-20 py-2 font-bold">
+              Voters Table
+            </span>
           </h1>
           <hr />
           {/* Voting Table */}
@@ -314,11 +339,40 @@ function Vote() {
               {allVotes.length > 1 ? (
                 allVotes.map((vote, index) => (
                   <tr className="border-b-2" key={index}>
-                    <td className="text-center font-semibold">{index +1}</td>
+                    <td className="text-center font-semibold">{index + 1}</td>
                     <td className="px-3">{vote.username.username}</td>
                     <td className="px-3">{vote.round}</td>
                     <td className="p-3">{vote.vote1.vote}</td>
                     <td className="px-4">{vote.vote2.vote}</td>
+                  </tr>
+                ))
+              ) : (
+                <></>
+              )}
+            </tbody>
+          </table>
+
+          <h1 className="text-center mt-5 p-3">
+            <span className="border-b-2 px-20 py-2 font-bold">
+              Total Votes Per Round
+            </span>
+          </h1>
+          <hr />
+          <table className="mt-2 text-xs">
+            <thead>
+              <tr>
+                <th className="border p-2">Round</th>
+                <th className="border p-2">{currentBattle.opponent1}</th>
+                <th className="border p-2">{currentBattle.opponent2}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {roundVotes.length > 0 ? (
+                roundVotes.map((round, index) => (
+                  <tr className="border-b-2" key={index}>
+                    <td className="px-3">{round.round}</td>
+                    <td className="p-3">{round.totals[0]}</td>
+                    <td className="px-4">{round.totals[1]}</td>
                   </tr>
                 ))
               ) : (
