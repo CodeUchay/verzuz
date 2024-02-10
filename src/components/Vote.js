@@ -112,7 +112,7 @@ console.log("votes for id: ", querySnapshot);
     console.log("voter2 sum2", sum2);
     setOpponent1Votes(sum1);
     setOpponent2Votes(sum2);
-
+    console.log(currentBattle)
     // Calculate total votes per opponent per round
     const roundVoteTotals = {};
     sortedList.forEach((vote) => {
@@ -124,7 +124,7 @@ console.log("votes for id: ", querySnapshot);
           [currentBattle.opponent2]: 0,
         };
       }
-
+      
       roundVoteTotals[round][vote1.opponent1] += vote1.vote;
       roundVoteTotals[round][vote2.opponent2] += vote2.vote;
     });
@@ -385,6 +385,7 @@ console.log("votes for id: ", querySnapshot);
             <thead>
               <tr>
                 <th className="border p-2">Round</th>
+                <th className="border p-2">Song Titles</th>
                 <th className="border p-2">{currentBattle.opponent1}</th>
                 <th className="border p-2">{currentBattle.opponent2}</th>
               </tr>
@@ -393,9 +394,11 @@ console.log("votes for id: ", querySnapshot);
               {roundVotes.length > 0 ? (
                 roundVotes.map((round, index) => (
                   <tr className="border-b-2" key={index}>
-                    <td className="px-3">{round.round}</td>
+                    {/* <td className="p-3">{round.round}</td> */}
+                    <td className="p-3">{index+1}</td>
+                    <td className="p-3 text-xs">{currentBattle.rounds[index].name}</td>
                     <td className="p-3">{round.totals[0]}</td>
-                    <td className="px-4">{round.totals[1]}</td>
+                    <td className="p-3">{round.totals[1]}</td>
                   </tr>
                 ))
               ) : (
