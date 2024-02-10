@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { GiBoxingGlove } from "react-icons/gi";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where, } from "firebase/firestore";
 import { db } from "../firebase";
 
 function Vote() {
@@ -9,6 +9,8 @@ function Vote() {
   const navigate = useNavigate();
   const [username, setUsername] = useState();
   const [user, setUser] = useState();
+  const [loadingVotes, setLoadingVotes] = useState(true); // State for loading indicator
+
 
   //Battle
   const [battles, setBattles] = useState([]);
@@ -80,19 +82,17 @@ function Vote() {
         }
       }
     }
+    setLoadingVotes(false); // Set loading to false when battles are fetched
   };
 
   const getAllVotes = async () => {
-    const querySnapshot = await getDocs(collection(db, "votes"));
-    const votingList = [];
-    querySnapshot.forEach((doc) => {
-      votingList.push({ id: doc.id, ...doc.data() });
-    });
+    const q = query(collection(db, "votes"), where("battleId", "==", id));
 
-    const sortedList = votingList
-      .filter((vote) => vote.battleId === currentBattle.id)
+const querySnapshot = await getDocs(q);
+console.log("votes for id: ", querySnapshot);
+    const sortedList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
       .sort((a, b) => new Date(a.time) - new Date(b.time));
-
+  
     setAllVotes(sortedList);
     console.log(sortedList);
 
@@ -147,6 +147,9 @@ function Vote() {
 
   const castVote = async (e) => {
     e.preventDefault();
+    // Disable the vote button
+    e.target.disabled = true;
+
     const previousDateTime = localStorage.getItem("verzuzVoting");
     const currentDateTime = Date.now();
     const totalCastedVote = Number(vote1Value) + Number(vote2Value);
@@ -181,7 +184,9 @@ function Vote() {
           alert(`Vote Casted Successfully! Wait for next round`);
           navigate("/");
         } catch (error) {
-          console.error("Error creating event:", error);
+          console.error("Error casting vote:", error);
+          alert(`Error occured, please try again`);
+          e.target.disabled = false;
         }
       } else {
         alert("You've Voted Already!!!");
@@ -218,6 +223,11 @@ function Vote() {
       </nav>
       {user ? (
         <div className="flex flex-col justify-center items-center">
+          {/* Your existing JSX code */}
+          {loadingVotes ? (
+            <p>Loading...</p>
+          ) : (
+            <>
           <h1 className="text-center mt-3 p-3">
             <span className="border-b-2 px-20 py-2 font-bold">
               Active Round
@@ -353,7 +363,7 @@ function Vote() {
           </table>
 
           <h1 className="text-center mt-5 p-3">
-            <span className="border-b-2 px-20 py-2 font-bold">
+            <span className="border-b-2 px-10 py-2 font-bold">
               Total Votes Per Round
             </span>
           </h1>
@@ -380,6 +390,8 @@ function Vote() {
               )}
             </tbody>
           </table>
+          </>
+          )}
         </div>
       ) : (
         <div className="flex flex-col justify-start items-center  mt-6">
@@ -406,6 +418,7 @@ function Vote() {
         </div>
       )}
     </div>
+    
   );
 }
 

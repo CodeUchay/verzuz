@@ -36,9 +36,10 @@ const RoundList = ({ battleId, battle, index }) => {
   
   return (
     <div>
+      
       {rounds.map((round, index) => (
         <li
-          className="text-sm w-60 border py-3 text-center flex flex-col justify-center items-center gap-1"
+          className="text-sm w-60 py-3 border-b text-center flex flex-col justify-center items-center gap-1"
           key={index}
         >
            <div>{round.round}</div>
@@ -60,6 +61,7 @@ const RoundList = ({ battleId, battle, index }) => {
                 Stop
               </button>
             )}
+            
           </div>
 
           <div>
@@ -73,8 +75,11 @@ const RoundList = ({ battleId, battle, index }) => {
             </button></div></div>)}
             
           </div>
+          
         </li>
+        
       ))}
+      
     </div>
   );
 };

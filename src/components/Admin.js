@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import {
   collection,
   getDocs,
+  doc,
+  deleteDoc
   
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -12,7 +14,7 @@ import {GiBoxingGlove } from 'react-icons/gi'
 function Battles() {
   const [battles, setBattles] = useState([]);
   const navigate = useNavigate();
-    const [status, setStatus] = useState();
+  const [status, setStatus] = useState();
 
     
   const getBattles = async () => {
@@ -33,6 +35,11 @@ function Battles() {
     await getBattles();
   };
 
+  const [deleteId, setDeleteId] = useState("");
+  
+  const deleteRoundById = async () => {
+    
+  };
 
   return (
     <>
@@ -69,7 +76,14 @@ function Battles() {
       ) : (
         <p> No Battles</p>
       )}
-    </div> </>
+    </div> 
+    {/* <div>
+    <input onChange={(e) => setDeleteId(e.target.value)} type="text" className="rounded w-28 bg-black border text-white" />
+              <button onClick={(e) => createRoundName(e, index)} className="bg-red-600 px-2 py-1 text-xs rounded text-white">
+              Delete
+            </button>
+    </div> */}
+    </>
   );
 }
 
