@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { GiBoxingGlove } from "react-icons/gi";
+import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { addDoc, collection, getDocs, query, where, } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -28,6 +29,10 @@ function Vote() {
   const [opponent1Votes, setOpponent1Votes] = useState();
   const [opponent2Votes, setOpponent2Votes] = useState();
   const [roundVotes, setRoundVotes] = useState([]);
+
+  // Accordion
+  const [collapseVotes, setCollapseVotes] = useState(true);
+  const [collapseRound, setCollapseRound] = useState(true);
 
   function logout() {
     localStorage.removeItem("verzusUserData");
@@ -300,7 +305,7 @@ console.log("votes for id: ", querySnapshot);
                 </div>
               </form>
             ) : (
-              <p>No active round</p>
+              <p>No active round &#128535; </p>
             )}
           </div>
           <h1 className="text-center mt-5 p-3">
@@ -327,15 +332,18 @@ console.log("votes for id: ", querySnapshot);
             <></>
           )}
 
-          <h1 className="text-center mt-5 p-3">
-            <span className="border-b-2 px-20 py-2 font-bold">
+          <div className=" mt-8 p-3">
+            <button  onClick={() => setCollapseVotes(!collapseVotes)} className="border px-2 flex justify-between items-center gap-2 py-2 font-bold rounded-full">
+            <span className="px-5">
               Voters Table
             </span>
-          </h1>
+            {collapseVotes ? (<MdOutlineKeyboardArrowDown  size={25}/>):(<MdOutlineKeyboardArrowRight  size={25}/>)}
+            </button>
+            
+          </div>
           <hr />
           {/* Voting Table */}
-
-          <table className=" mt-2 text-xs">
+          {collapseVotes ? ( <table className=" mt-2 text-xs">
             <thead>
               <tr>
                 <th className="border p-2">No</th>
@@ -360,15 +368,20 @@ console.log("votes for id: ", querySnapshot);
                 <></>
               )}
             </tbody>
-          </table>
+          </table>):(<></>)}
+          <div className="border-b-2 px-32 mt-5 "></div>
+         
 
-          <h1 className="text-center mt-5 p-3">
-            <span className="border-b-2 px-10 py-2 font-bold">
-              Total Votes Per Round
+          <div className="mt-5 p-3">
+            <button  onClick={() => setCollapseRound(!collapseRound)} className="border px-2 flex justify-between items-center gap-2 py-2 font-bold rounded-full">
+            <span className="px-5">
+               Votes Per Round
             </span>
-          </h1>
-          <hr />
-          <table className="mt-2 text-xs">
+            {collapseRound ? (<MdOutlineKeyboardArrowDown  size={25}/>):(<MdOutlineKeyboardArrowRight  size={25}/>)}
+            </button>
+            
+          </div>
+          {collapseRound ? (<table className="mt-2 text-xs">
             <thead>
               <tr>
                 <th className="border p-2">Round</th>
@@ -389,7 +402,8 @@ console.log("votes for id: ", querySnapshot);
                 <></>
               )}
             </tbody>
-          </table>
+          </table>):(<></>)}
+          
           </>
           )}
         </div>
