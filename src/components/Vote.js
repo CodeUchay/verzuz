@@ -32,7 +32,7 @@ function Vote() {
   const [roundVotes, setRoundVotes] = useState([]);
 
   // Accordion
-  const [collapseVotes, setCollapseVotes] = useState(true);
+  const [collapseVotes, setCollapseVotes] = useState(false);
   const [collapseRound, setCollapseRound] = useState(true);
 
   function logout() {
