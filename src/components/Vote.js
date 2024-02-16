@@ -4,6 +4,7 @@ import { GiBoxingGlove } from "react-icons/gi";
 import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { addDoc, collection, getDocs, query, where, } from "firebase/firestore";
 import { db } from "../firebase";
+import moment from 'moment';
 
 function Vote() {
   let { id } = useParams();
@@ -204,7 +205,7 @@ console.log("votes for id: ", querySnapshot);
 
   return (
     <div>
-      <nav className="p-5 px-6 flex justify-between items-center border-b border-b-gray-400 '">
+      <nav className="p-5 px-4 shadow-sm shadow-gray-300 flex justify-between items-center border-b-2 border-b-gray-400 '">
         <Link
           to="/"
           className="font-bold flex flex-row justify-center items-center text-lg"
@@ -217,7 +218,7 @@ console.log("votes for id: ", querySnapshot);
               {/* <button  onClick={(e) => logout(e)} className="bg-red-500 px-2 py-1 rounded mr-2">
               logout
             </button>          */}
-              <span className=" bg-orange-700 px-2 py-1 rounded text-white">
+              <span className="bg-orange-600 px-2 py-1 rounded text-white">
                 Welcome, {user.username}
               </span>
             </>
@@ -234,7 +235,7 @@ console.log("votes for id: ", querySnapshot);
           ) : (
             <>
           <h1 className="text-center mt-3 p-3">
-            <span className="border-b-2 px-20 py-2 font-bold">
+            <span className="border-b px-20 py-2 font-bold">
               Active Round
             </span>
           </h1>
@@ -309,7 +310,7 @@ console.log("votes for id: ", querySnapshot);
             )}
           </div>
           <h1 className="text-center mt-5 p-3">
-            <span className="border-b-2 px-20 py-2 font-bold">Total Votes</span>
+            <span className="border-b px-20 py-2 font-bold">Total Votes</span>
           </h1>
           <hr />
 
@@ -343,7 +344,7 @@ console.log("votes for id: ", querySnapshot);
           </div>
           <hr />
           {/* Voting Table */}
-          {collapseVotes ? ( <table className=" mt-2 text-xs">
+          {collapseVotes ? ( <table className="mt-1 mx-3 text-xs">
             <thead>
               <tr>
                 <th className="border p-2">No</th>
@@ -356,7 +357,7 @@ console.log("votes for id: ", querySnapshot);
             <tbody>
               {allVotes.length > 1 ? (
                 allVotes.map((vote, index) => (
-                  <tr className="border-b-2" key={index}>
+                  <tr className="border-b" key={index}>
                     <td className="text-center font-semibold">{index + 1}</td>
                     <td className="px-3">{vote.username.username}</td>
                     <td className="px-3">{vote.round}</td>
@@ -369,7 +370,7 @@ console.log("votes for id: ", querySnapshot);
               )}
             </tbody>
           </table>):(<></>)}
-          <div className="border-b-2 px-32 mt-5 "></div>
+          <div className="border-b px-32 mt-5 "></div>
          
 
           <div className="mt-5 p-3">
@@ -381,7 +382,7 @@ console.log("votes for id: ", querySnapshot);
             </button>
             
           </div>
-          {collapseRound ? (<table className="mt-2 text-xs">
+          {collapseRound ? (<table className="mt-1 mx-3 text-xs">
             <thead>
               <tr>
                 <th className="border p-2">Round</th>
@@ -393,7 +394,7 @@ console.log("votes for id: ", querySnapshot);
             <tbody>
               {roundVotes.length > 0 ? (
                 roundVotes.map((round, index) => (
-                  <tr className="border-b-2" key={index}>
+                  <tr className="border-b" key={index}>
                     {/* <td className="p-3">{round.round}</td> */}
                     <td className="p-3">{index+1}</td>
                     <td className="p-3 text-xs">{currentBattle.rounds[index].name}</td>
@@ -409,6 +410,26 @@ console.log("votes for id: ", querySnapshot);
           
           </>
           )}
+
+         
+          <div>{currentBattle.otherDetails? ( <ul>
+      {currentBattle.otherDetails.map((detail, index) => (
+        <li key={index}>
+           <h1 className="text-center mt-5 p-3">
+            <span className="border-b-2 px-20 py-2 font-bold">
+              Battle Details
+            </span>
+          </h1>
+          <div className="flex justify-center items-center flex-col text-gray-200 gap-1 m-2 border rounded border-gray-200 p-3">
+            <div className="flex flex-row gap-3 font-bold border-b-2 "><p>{detail.playerName1}</p><p className="font-extralight">vs</p>
+          <p>{detail.playerName2}</p></div>
+          <p className="font-extralight text-xs mt-1">by</p>
+          <p className="font-bold"> {detail.hostName}</p>
+          <p className="font-light">{moment(detail.date).format("ddd, DD/MM/YYYY, h:mma")}</p>
+          </div>
+        </li>
+      ))}
+    </ul>):(<></>)}</div>
         </div>
       ) : (
         <div className="flex flex-col justify-start items-center  mt-6">
