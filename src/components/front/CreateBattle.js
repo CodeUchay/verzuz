@@ -183,7 +183,7 @@ function Add() {
             </div>
 
             <div className="flex flex-row justify-center items-center mb-6 ">
-              <button
+              <div
                 onClick={() => 
                   clearAddMore()
                 }
@@ -195,7 +195,7 @@ function Add() {
                 ) : (
                   <FiPlusCircle size={25} />
                 )}
-              </button>
+              </div>
             </div>
             <div>
               {addMore ? (
