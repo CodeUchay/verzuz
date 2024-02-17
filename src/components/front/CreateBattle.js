@@ -183,9 +183,8 @@ function Add() {
             </div>
 
             <div className="flex flex-row justify-center items-center mb-6 ">
-              <label
+              <button
                 onClick={() => 
-                  
                   clearAddMore()
                 }
                 className="cursor-pointer px-2 text-sm flex justify-start items-center gap-2 py-1 bg-orange-600 rounded-full"
@@ -196,7 +195,7 @@ function Add() {
                 ) : (
                   <FiPlusCircle size={25} />
                 )}
-              </label>
+              </button>
             </div>
             <div>
               {addMore ? (
