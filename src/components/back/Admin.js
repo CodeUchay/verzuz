@@ -6,9 +6,9 @@ import {
   deleteDoc
   
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { useNavigate, Link } from "react-router-dom";
-import RoundList from "./Round";
+import RoundList from "./RoundList";
 import {GiBoxingGlove } from 'react-icons/gi'
 
 function Battles() {

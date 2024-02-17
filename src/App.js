@@ -1,8 +1,8 @@
-import Add from './components/Add';
-import Admin from './components/Admin';
+import CreateBattle from './components/front/CreateBattle';
+import Admin from './components/back/Admin';
 import Footer from './components/Footer';
-import Home from './components/Home';
-import Vote from './components/Vote';
+import Home from './components/front/Home';
+import Vote from './components/front/Vote';
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -10,12 +10,11 @@ function App() {
     <>
        <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/add" element={<Add />} />
+        <Route path="/add" element={<CreateBattle />} />
         <Route path="/vote/:id" element={<Vote />} />
         <Route path="/admin" element={<Admin />} />
-        
       </Routes>
-      <Footer/>
+      <Footer />
       </>
   );
 }

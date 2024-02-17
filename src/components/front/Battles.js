@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
-  addDoc,
-  getDoc,
   collection,
   getDocs,
-  deleteDoc,
-  doc,
-  query,
-  where,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 
 function Battles() {

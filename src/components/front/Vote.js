@@ -3,8 +3,9 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { GiBoxingGlove } from "react-icons/gi";
 import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { addDoc, collection, getDocs, query, where, } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import moment from 'moment';
+import ActiveRound from './ActiveRound'
 
 function Vote() {
   let { id } = useParams();
@@ -13,17 +14,10 @@ function Vote() {
   const [user, setUser] = useState();
   const [loadingVotes, setLoadingVotes] = useState(true); // State for loading indicator
 
-
   //Battle
   const [battles, setBattles] = useState([]);
   const [currentBattle, setCurrentBattle] = useState([]);
   const [activeRound, setActiveRound] = useState();
-
-  // Voting
-  const [vote1Value, setVote1Value] = useState();
-  const [vote2Value, setVote2Value] = useState();
-  const [voted, setVoted] = useState(false);
-  const [checkRange, setCheckRange] = useState(false);
 
   // Get votes
   const [allVotes, setAllVotes] = useState([]);
@@ -151,57 +145,7 @@ console.log("votes for id: ", querySnapshot);
     }
   }, [currentBattle]);
 
-  const castVote = async (e) => {
-    e.preventDefault();
-    // Disable the vote button
-    e.target.disabled = true;
 
-    const previousDateTime = localStorage.getItem("verzuzVoting");
-    const currentDateTime = Date.now();
-    const totalCastedVote = Number(vote1Value) + Number(vote2Value);
-
-    if (totalCastedVote === 10) {
-      setCheckRange(false);
-      console.log("rounds created");
-      if (Number(previousDateTime) + 3 * 60 * 1000 < Number(currentDateTime)) {
-        try {
-          const vote1 = {
-            opponent1: currentBattle.opponent1,
-            vote: Number(vote1Value) || 0,
-          };
-
-          const vote2 = {
-            opponent2: currentBattle.opponent2,
-            vote: Number(vote2Value) || 0,
-          };
-
-          await addDoc(collection(db, "votes"), {
-            battleId: currentBattle.id,
-            username: user,
-            vote1: vote1,
-            vote2: vote2,
-            round: activeRound.round, // Add round information
-            time: new Date().toISOString(),
-          });
-
-          const date = Date.now();
-          localStorage.setItem("verzuzVoting", date);
-          console.log("Vote Casted");
-          alert(`Vote Casted Successfully! Wait for next round`);
-          navigate("/");
-        } catch (error) {
-          console.error("Error casting vote:", error);
-          alert(`Error occured, please try again`);
-          e.target.disabled = false;
-        }
-      } else {
-        alert("You've Voted Already!!!");
-        navigate("/");
-      }
-    } else {
-      setCheckRange(true);
-    }
-  };
 
   return (
     <div>
@@ -240,75 +184,8 @@ console.log("votes for id: ", querySnapshot);
             </span>
           </h1>
           {/* Cast Vote */}
-          <div>
-            {activeRound ? (
-              <form onSubmit={(e) => castVote(e)} className="mt-2">
-                <h1 className="text-center mt-3 p-3">
-                  {activeRound ? (
-                    <div className="flex flex-col">
-                      <span className="px-20 py-2">{activeRound.round} </span>
-                      <span className="px-20 py-2">
-                        Title: {activeRound.name}{" "}
-                      </span>
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                </h1>
-                <div className="flex flex-col justify-center items-center gap-4">
-                  <div className="flex flex-row justify-center items-center gap-4">
-                    <div>
-                      <label htmlFor="vote1Value" className="block text-sm ">
-                        {currentBattle.opponent1}
-                      </label>
-                      <input
-                        type="number"
-                        className="mt-2 appearance-none text-black rounded-md block w-20 px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-orange-100 focus:ring-orange-200  ring-1 "
-                        onChange={(e) => setVote1Value(e.target.value)}
-                        value={vote1Value}
-                        required
-                      />
-                    </div>
-                    <span className="mt-10 text-md font-bold">Vs</span>
-                    <div>
-                      <label htmlFor="vote2Value" className="block text-sm  ">
-                        {currentBattle.opponent2}
-                      </label>
-                      <input
-                        type="number"
-                        className="mt-2 appearance-none text-black rounded-md block w-20 px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-orange-100 focus:ring-orange-200  ring-1 "
-                        onChange={(e) => setVote2Value(e.target.value)}
-                        value={vote2Value}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <p className="text-xs">
-                    {" "}
-                    <b>Hint:</b> Divide 10 votes accross opponents &#128512;
-                  </p>
-                  <div>
-                    {checkRange ? (
-                      <p className="text-red-600 text-xs font-extralight">
-                        Total votes should equal 10
-                      </p>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="inline-flex justify-center w-40  rounded-lg text-sm py-2.5 px-4 bg-orange-600 hover:bg-orange-700 "
-                  >
-                    <span className="text-white">Vote</span>
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <p>No active round &#128535; </p>
-            )}
-          </div>
+          {activeRound ? (<ActiveRound activeRound={activeRound} currentBattle={currentBattle} user={user}/>
+          ):(<p>No active round &#128535; </p>)}
           <h1 className="text-center mt-5 p-3">
             <span className="border-b px-20 py-2 font-bold">Total Votes</span>
           </h1>
@@ -332,7 +209,6 @@ console.log("votes for id: ", querySnapshot);
           ) : (
             <></>
           )}
-
           <div className=" mt-8 p-3">
             <button  onClick={() => setCollapseVotes(!collapseVotes)} className="border px-2 flex justify-between items-center gap-2 py-2 font-bold rounded-full">
             <span className="px-5">
@@ -340,7 +216,6 @@ console.log("votes for id: ", querySnapshot);
             </span>
             {collapseVotes ? (<MdOutlineKeyboardArrowDown  size={25}/>):(<MdOutlineKeyboardArrowRight  size={25}/>)}
             </button>
-            
           </div>
           <hr />
           {/* Voting Table */}
@@ -371,8 +246,6 @@ console.log("votes for id: ", querySnapshot);
             </tbody>
           </table>):(<></>)}
           <div className="border-b px-32 mt-5 "></div>
-         
-
           <div className="mt-5 p-3">
             <button  onClick={() => setCollapseRound(!collapseRound)} className="border px-2 flex justify-between items-center gap-2 py-2 font-bold rounded-full">
             <span className="px-5">
@@ -407,16 +280,13 @@ console.log("votes for id: ", querySnapshot);
               )}
             </tbody>
           </table>):(<></>)}
-          
           </>
           )}
-
-         
-          <div>{currentBattle.otherDetails? ( <ul>
+           <div>{currentBattle.otherDetails? ( <ul>
       {currentBattle.otherDetails.map((detail, index) => (
         <li key={index}>
            <h1 className="text-center mt-5 p-3">
-            <span className="border-b-2 px-20 py-2 font-bold">
+            <span className="border-b px-20 py-2 font-bold">
               Battle Details
             </span>
           </h1>

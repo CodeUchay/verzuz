@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { GiBoxingGlove } from "react-icons/gi";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
@@ -30,13 +30,16 @@ function Add() {
   var valid = function (current) {
     return current.isAfter(yesterday);
   };
+  // Voting type
+  const [voteType, setVoteType] = useState('split')
 
   const clearAddMore = () => {
-  setPlayerName1("");
-  setPlayerName2("");
-  setHostName("");
-  onChange("");
-  console.log(dateValue)
+    setAddMore(!addMore);
+    setPlayerName1("");
+    setPlayerName2("");
+    setHostName("");
+    onChange("");
+    console.log(dateValue);
   };
 
   const rounds = [];
@@ -53,14 +56,14 @@ function Add() {
       try {
         const uniqueId = generateUniqueId(5); // Implement your logic to generate a unique ID
         // const barcodeUrl = await generateQRCode(uniqueId); // Implement your logic to generate the barcode URL
-        
+
         const otherDetails = [];
-        if (addMore){
+        if (addMore) {
           otherDetails.push({
             playerName1: playerName1,
             playerName2: playerName2,
             hostName: hostName,
-            date: dateValue.toISOString()
+            date: dateValue.toISOString(),
           });
         }
 
@@ -68,8 +71,9 @@ function Add() {
           opponent1: name1,
           opponent2: name2,
           rounds: rounds,
+          voteType: voteType,
           battleId: uniqueId,
-          otherDetails: otherDetails
+          otherDetails: otherDetails,
         });
 
         console.log("Battle created successfully!");
@@ -165,9 +169,25 @@ function Add() {
                 required
               />
             </div>
+
+            <div className="mb-6">
+              <label htmlFor="votingType" className="mb-2 block text-sm leading-6 ">
+                Voting Type
+              </label>
+              <div className="flex flex-row justify-start items-center gap-2 text-sm border accent-orange-600 rounded border-gray-400 px-2 h-10">
+              <input type="radio" id="split" name="vote_type" value="split" defaultChecked={voteType === 'split'} onClick={() => setVoteType('split')}/>
+              <label htmlFor="split">Split 10 </label>
+              <input type="radio" id="binary" name="vote_type" value="binary" disabled onClick={() => setVoteType('binary')} />
+              <label htmlFor="binary">Binary</label>
+              </div>
+            </div>
+
             <div className="flex flex-row justify-center items-center mb-6 ">
               <label
-                onClick={() => {setAddMore(!addMore);  clearAddMore()}}
+                onClick={() => 
+                  
+                  clearAddMore()
+                }
                 className="cursor-pointer px-2 text-sm flex justify-start items-center gap-2 py-1 bg-orange-600 rounded-full"
               >
                 <span className="px-2">Add More Details</span>
@@ -194,7 +214,6 @@ function Add() {
                         className="mt-2 appearance-none text-black rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-orange-100 focus:ring-orange-200  ring-1 "
                         onChange={(e) => setPlayerName1(e.target.value)}
                         value={playerName1}
-                       
                       />
                     </div>
                     <span className="mt-10 text-md font-bold">Vs</span>
