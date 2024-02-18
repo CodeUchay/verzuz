@@ -178,20 +178,20 @@ console.log("votes for id: ", querySnapshot);
             <p>Loading...</p>
           ) : (
             <>
-          <h1 className="text-center mt-3 p-3">
+          
+          {/* Cast Vote */}
+          {activeRound ? (<><h1 className="text-center mt-3 p-3">
             <span className="border-b px-20 py-2 font-bold">
               Active Round
             </span>
-          </h1>
-          {/* Cast Vote */}
-          {activeRound ? (<ActiveRound activeRound={activeRound} currentBattle={currentBattle} user={user}/>
-          ):(<p>No active round &#128535; </p>)}
+          </h1><ActiveRound activeRound={activeRound} currentBattle={currentBattle} user={user}/>
+          </>):(<></>)}
           <h1 className="text-center mt-5 p-3">
             <span className="border-b px-20 py-2 font-bold">Total Votes</span>
           </h1>
           <hr />
 
-          {opponent1Votes > 1 || opponent2Votes > 1 ? (
+          {opponent1Votes > 0 || opponent2Votes > 0 ? (
             <div className="">
               <div className="flex justify-center items-center mt-3">
                 <h1>{currentBattle.opponent1}'s Votes: </h1>
@@ -296,10 +296,12 @@ console.log("votes for id: ", querySnapshot);
           <p className="font-extralight text-xs mt-1">by</p>
           <p className="font-bold"> {detail.hostName}</p>
           <p className="font-light">{moment(detail.date).format("ddd, DD/MM/YYYY, h:mma")}</p>
-          </div>
+         </div>
         </li>
       ))}
-    </ul>):(<></>)}</div>
+         
+    </ul>):(<></>)}</div><div className="mt-5 border border-spacing-y-3.5 rounded bg-gray-200 text-black p-3">{currentBattle.winner ? (<> <span className="font-bold text-lg">{currentBattle.winner} {" won"} &#127881;</span></>):(<></>)}</div>
+        
         </div>
       ) : (
         <div className="flex flex-col justify-start items-center  mt-6">
