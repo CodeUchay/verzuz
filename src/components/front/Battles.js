@@ -5,8 +5,9 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import HallOfFame from "./HallOfFame";
 
-function Battles() {
+const Battles = () => {
   const [battles, setBattles] = useState([]);
   const navigate = useNavigate();
 
@@ -50,6 +51,7 @@ function Battles() {
       ) : (
         <p> No Battles</p>
       )}
+      <HallOfFame battles={battles}/>
     </div>
   );
 }

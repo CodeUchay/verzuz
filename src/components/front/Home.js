@@ -2,9 +2,10 @@ import React from 'react'
 import Battles from './Battles'
 import { Link } from 'react-router-dom'
 import {GiBoxingGlove } from 'react-icons/gi'
+import HallOfFame from './HallOfFame'
 
-function Home() {
-    
+const Home = () => {
+   
   return (
     <div>
         <nav className='p-5 px-4 shadow-sm shadow-gray-300 flex justify-between items-center border-b-2 border-b-gray-400'>
@@ -14,6 +15,7 @@ function Home() {
         <div>
             <Battles/>
         </div>
+        
     </div>
   )
 }

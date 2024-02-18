@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate, Link } from "react-router-dom";
-import RoundList from "./RoundList";
+import RoundList from "./AdminRoundList";
 import {GiBoxingGlove } from 'react-icons/gi'
 
 function Battles() {
@@ -41,6 +41,7 @@ function Battles() {
     
   };
 
+ 
   return (
     <>
     <nav className='p-5 px-4 shadow-sm shadow-gray-300 flex justify-between items-center border-b-2 border-b-gray-400 '>
@@ -83,6 +84,7 @@ function Battles() {
               Delete
             </button>
     </div> */}
+    
     </>
   );
 }

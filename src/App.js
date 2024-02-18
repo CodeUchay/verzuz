@@ -4,12 +4,14 @@ import Footer from './components/Footer';
 import Home from './components/front/Home';
 import Vote from './components/front/Vote';
 import { Route, Routes } from "react-router-dom";
+import React from "react";
 
 function App() {
+
   return (
     <>
        <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home/>} />
         <Route path="/add" element={<CreateBattle />} />
         <Route path="/vote/:id" element={<Vote />} />
         <Route path="/admin" element={<Admin />} />
