@@ -291,7 +291,7 @@ console.log("votes for id: ", querySnapshot);
             </span>
           </h1>
           <div className="flex justify-center items-center flex-col text-gray-200 gap-1 m-2 border rounded border-gray-200 p-3">
-            <div className="flex flex-row gap-3 font-bold border-b-2 "><p>{detail.playerName1}</p><p className="font-extralight">vs</p>
+            <div className="flex flex-row gap-3 font-bold border-b-2 p-1 "><p>{detail.playerName1}</p><p className="font-extralight">vs</p>
           <p>{detail.playerName2}</p></div>
           <p className="font-extralight text-xs mt-1">by</p>
           <p className="font-bold"> {detail.hostName}</p>
@@ -300,7 +300,7 @@ console.log("votes for id: ", querySnapshot);
         </li>
       ))}
          
-    </ul>):(<></>)}</div><div className="mt-5 border border-spacing-y-3.5 rounded bg-gray-200 text-black p-3">{currentBattle.winner ? (<> <span className="font-bold text-lg">{currentBattle.winner} {" won"} &#127881;</span></>):(<></>)}</div>
+    </ul>):(<></>)}</div>{currentBattle.winner ? (<div className="mt-5 border border-spacing-y-3.5 rounded bg-gray-200 text-black p-3"> <span className="font-bold text-lg">{currentBattle.winner} {" won"} &#127881;</span></div>):(<></>)}
         
         </div>
       ) : (

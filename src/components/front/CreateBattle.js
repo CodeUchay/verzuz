@@ -236,7 +236,7 @@ function Add() {
                       htmlFor="hostName"
                       className="block text-sm leading-6 "
                     >
-                      Host Name
+                      Host's Name
                     </label>
                     <input
                       type="text"
