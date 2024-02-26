@@ -65,7 +65,7 @@ const AdminRoundList = ({ battleId, battle, index }) => {
           className="text-sm w-60 py-3 border-b text-center flex flex-col justify-center items-center gap-1"
           key={index}
         >
-          <div>{round.round}</div>
+          <div className="text-lg font-semibold">{round.round}</div>
           {round.name ? (<div>
             {/* Active:{" "} */}
             {round.active == false ? (
@@ -93,8 +93,7 @@ const AdminRoundList = ({ battleId, battle, index }) => {
               <p> Song Titles: {round.name}</p>
             ) : (
               <div className=" flex flex-col p-3 justify-items-center gap-1">
-                <h2>Create Song Titles</h2>
-                <hr />
+                <h2> <u>Create Song Titles </u></h2>
                 <div className="flex flex-col mt-2 gap-2">
                  
                   <label htmlFor="Opponent1">{battle.opponent1}'s Song</label>
