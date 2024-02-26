@@ -5,14 +5,17 @@ import { db } from "../../firebase";
 const AdminRoundList = ({ battleId, battle, index }) => {
   const [rounds, setRounds] = useState(battle.rounds);
   const [roundName, setRoundName] = useState(false);
+  const [song1, setSong1] = useState("");
+  const [song2, setSong2] = useState("")
   const [status, setStatus] = useState(false);
   const [winnerName, setWinnerName] = useState("");
 
   const createRoundName = async (e, roundIndex) => {
+    const name = song1 + " vs " + song2;
     e.preventDefault();
     console.log("indexx", roundIndex);
     const updatedRounds = [...rounds];
-    updatedRounds[roundIndex].name = roundName;
+    updatedRounds[roundIndex].name = name;
     setRounds(updatedRounds);
     const nameRef = doc(db, "battles", `${battleId}`);
     await updateDoc(nameRef, {
@@ -63,8 +66,8 @@ const AdminRoundList = ({ battleId, battle, index }) => {
           key={index}
         >
           <div>{round.round}</div>
-          <div>
-            Active:{" "}
+          {round.name ? (<div>
+            {/* Active:{" "} */}
             {round.active == false ? (
               <button
                 disabled={status}
@@ -82,24 +85,34 @@ const AdminRoundList = ({ battleId, battle, index }) => {
                 Stop
               </button>
             )}
-          </div>
+          </div>):(<></>)}
+          
 
           <div>
             {round.name ? (
-              <p> Name: {round.name}</p>
+              <p> Song Titles: {round.name}</p>
             ) : (
               <div className=" flex flex-col p-3 justify-items-center gap-1">
-                <h2>Create Name</h2>
+                <h2>Create Song Titles</h2>
                 <hr />
-                <div className="flex flex-row mt-2 gap-2">
+                <div className="flex flex-col mt-2 gap-2">
+                 
+                  <label htmlFor="Opponent1">{battle.opponent1}'s Song</label>
                   <input
-                    onChange={(e) => setRoundName(e.target.value)}
+                    onChange={(e) => setSong1(e.target.value)}
                     type="text"
-                    className="px-2 py-1 rounded w-28 bg-black border text-white"
+                    className="px-2 py-1 rounded  bg-black border text-white"
+                  /><p> <b> vs </b></p>
+                  <label htmlFor="Opponent2">{battle.opponent2}'s Song</label>
+                  
+                  <input
+                    onChange={(e) => setSong2(e.target.value)}
+                    type="text"
+                    className="px-2 py-1 rounded  bg-black border text-white"
                   />
                   <button
                     onClick={(e) => createRoundName(e, index)}
-                    className="bg-cyan-600 px-2 py-1 text-xs rounded text-white"
+                    className="bg-cyan-600 px-2 py-2 mt-1 text-xs rounded text-white"
                   >
                     Create
                   </button>
