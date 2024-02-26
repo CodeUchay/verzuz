@@ -295,7 +295,7 @@ console.log("votes for id: ", querySnapshot);
           <p>{detail.playerName2}</p></div>
           <p className="font-extralight text-xs mt-1">by</p>
           <p className="font-bold"> {detail.hostName}</p>
-          <p className="font-light">{moment(detail.date).format("ddd, DD/MM/YYYY, h:mma")}</p>
+          <p className="font-light">{moment(detail.date).format("ddd, DD/MM/YYYY, h:mma z")}</p>
          </div>
         </li>
       ))}

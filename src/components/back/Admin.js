@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   collection,
   getDocs,
-  doc,
-  deleteDoc
-  
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate, Link } from "react-router-dom";
@@ -24,7 +21,9 @@ function Battles() {
       battleList.push({ id: doc.id, ...doc.data() });
     });
     console.log(battleList);
-    setBattles(battleList);
+
+    filterBattles(battleList);
+    // To view all list: setBattles(battleList);
   };
  
   useEffect(() => {
@@ -40,7 +39,15 @@ function Battles() {
   const deleteRoundById = async () => {
     
   };
-
+  const filterBattles = (battleList) => {
+    const activeBattles = [];
+    for (let i = 0; i < battleList.length; i++){
+      if(!battleList[i].winner){
+        activeBattles.push(battleList[i]);
+      }
+    }
+    setBattles(activeBattles)
+  }
  
   return (
     <>
@@ -52,7 +59,7 @@ function Battles() {
    
     <div className="flex flex-col justify-center items-center">
       <h1 className="text-center mt-3 p-3"> {" "}
-        <span className="border-b-2 px-20 py-2">Battles</span>
+        <span className="border-b-2 px-20 py-2">Active Battles</span>
       </h1>
       {battles ? (
         <ul className="mt-3 flex flex-col justify-center item-center gap-5 ">

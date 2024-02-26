@@ -20,6 +20,8 @@ const AdminRoundList = ({ battleId, battle, index }) => {
     });
   };
 
+  
+
   const setActiveRound = async (e, roundIndex, roundStatus) => {
     e.preventDefault();
     setStatus(true);
