@@ -8,6 +8,7 @@ import { useNavigate, Link } from "react-router-dom";
 import RoundList from "./AdminRoundList";
 import {GiBoxingGlove } from 'react-icons/gi'
 
+
 function Battles() {
   const [battles, setBattles] = useState([]);
   const navigate = useNavigate();
@@ -49,6 +50,8 @@ function Battles() {
     setBattles(activeBattles)
   }
  
+ 
+  
   return (
     <>
     <nav className='p-5 px-4 shadow-sm shadow-gray-300 flex justify-between items-center border-b-2 border-b-gray-400 '>
@@ -64,7 +67,7 @@ function Battles() {
       {battles ? (
         <ul className="mt-3 flex flex-col justify-center item-center gap-5 ">
           {battles.map((battle, index) => (
-            <div className=" text-sm " key={index}>
+            <div className=" text-sm flex flex-col justify-center items-center" key={index}>
               <li
                 className="w-60 border py-3 text-center "
               >

@@ -10,7 +10,7 @@ import ActiveRound from './ActiveRound'
 function Vote() {
   let { id } = useParams();
   const navigate = useNavigate();
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState("");
   const [user, setUser] = useState();
   const [loadingVotes, setLoadingVotes] = useState(true); // State for loading indicator
 
@@ -43,13 +43,19 @@ function Vote() {
   }, []);
 
   function saveUserData() {
-    const verzusUserData = {
-      username: username,
-    };
-
-    localStorage.setItem("verzusUserData", JSON.stringify(verzusUserData));
-    setUser(verzusUserData);
-    console.log("here>>>>>>>>.", localStorage.getItem("verzusUserData"));
+    if(username.length > 3){
+      const verzusUserData = {
+        username: username,
+      };
+  
+      localStorage.setItem("verzusUserData", JSON.stringify(verzusUserData));
+      setUser(verzusUserData);
+      console.log("here>>>>>>>>.", localStorage.getItem("verzusUserData"));
+    }
+    if(username.length < 3){
+      alert("Username should be more than 3 letters")
+    }
+    
   }
 
   function getUserData() {
@@ -159,9 +165,9 @@ console.log("votes for id: ", querySnapshot);
         <div>
           {user ? (
             <>
-              {/* <button  onClick={(e) => logout(e)} className="bg-red-500 px-2 py-1 rounded mr-2">
+              <button  onClick={(e) => logout(e)} className="bg-red-500 px-2 py-1 rounded mr-2">
               logout
-            </button>          */}
+            </button>         
               <span className="bg-orange-600 px-2 py-1 rounded text-white">
                 Welcome, {user.username}
               </span>
