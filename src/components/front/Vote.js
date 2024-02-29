@@ -165,9 +165,9 @@ console.log("votes for id: ", querySnapshot);
         <div>
           {user ? (
             <>
-              <button  onClick={(e) => logout(e)} className="bg-red-500 px-2 py-1 rounded mr-2">
+              {/* <button  onClick={(e) => logout(e)} className="bg-red-500 px-2 py-1 rounded mr-2">
               logout
-            </button>         
+            </button>          */}
               <span className="bg-orange-600 px-2 py-1 rounded text-white">
                 Welcome, {user.username}
               </span>
