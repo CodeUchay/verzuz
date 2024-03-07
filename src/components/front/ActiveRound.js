@@ -13,6 +13,9 @@ const ActiveRound = ({ activeRound, currentBattle, user }) => {
 
   console.log("actif", activeRound);
   const active = activeRound;
+
+
+  
   const castVote = async (e) => {
     e.preventDefault();
     // Disable the vote button
@@ -50,7 +53,7 @@ const ActiveRound = ({ activeRound, currentBattle, user }) => {
           localStorage.setItem("verzuzVoting", date);
           console.log("Vote Casted");
           alert(`Vote Casted Successfully! Wait for next round`);
-          navigate("/");
+          // navigate("/");
         } catch (error) {
           console.error("Error casting vote:", error);
           alert(`Error occured, please try again`);
