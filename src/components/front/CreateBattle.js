@@ -66,6 +66,7 @@ function Add() {
             date: dateValue.toISOString(),
           });
         }
+        const date = new Date().toISOString();
 
         await addDoc(collection(db, "battles"), {
           opponent1: name1,
@@ -74,7 +75,9 @@ function Add() {
           voteType: voteType,
           battleId: uniqueId,
           otherDetails: otherDetails,
+          date: date
         });
+        
 
         console.log("Battle created successfully!");
         alert(`Battle ${name1 + " vs " + name2} Created Successfully!`);

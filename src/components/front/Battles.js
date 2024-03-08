@@ -17,6 +17,19 @@ const Battles = () => {
     querySnapshot.forEach((doc) => {
       battleList.push({ id: doc.id, ...doc.data() });
     });
+
+    battleList.sort((a, b) => {
+      if (a.date && b.date) {
+        return new Date(b.date) - new Date(a.date);
+      } else if (a.date && !b.date) {
+        return -1; // Place battles without a date after battles with a date
+      } else if (!a.date && b.date) {
+        return 1; // Place battles without a date after battles with a date
+      } else {
+        return 0; // If both battles don't have a date, maintain the original order
+      }
+    });
+    
     console.log(battleList);
     setBattles(battleList);
   };

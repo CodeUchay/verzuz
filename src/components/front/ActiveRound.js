@@ -6,8 +6,8 @@ import { db } from "../../firebase";
 const ActiveRound = ({ activeRound, currentBattle, user }) => {
   const navigate = useNavigate();
   // Voting
-  const [vote1Value, setVote1Value] = useState();
-  const [vote2Value, setVote2Value] = useState();
+  const [vote1Value, setVote1Value] = useState(0);
+  const [vote2Value, setVote2Value] = useState(0);
   const [voted, setVoted] = useState(false);
   const [checkRange, setCheckRange] = useState(false);
 
@@ -27,7 +27,7 @@ const ActiveRound = ({ activeRound, currentBattle, user }) => {
     console.log("casted vote sum: ",totalCastedVote)
     if ((totalCastedVote === 10 && currentBattle.voteType === 'split') || (totalCastedVote === 1 && currentBattle.voteType === 'binary') ) {
       setCheckRange(false);
-      console.log("rounds created");
+      console.log("vote casted");
       if (Number(previousDateTime) + 3 * 60 * 1000 < Number(currentDateTime)) {
         try {
           const vote1 = {
