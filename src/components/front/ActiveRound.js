@@ -23,7 +23,7 @@ const ActiveRound = ({ activeRound, currentBattle, user }) => {
 
     const previousDateTime = localStorage.getItem("verzuzVoting");
     const currentDateTime = Date.now();
-    const totalCastedVote = Number(vote1Value) + Number(vote2Value);
+    const totalCastedVote = Math.trunc(Number(vote1Value))  + Math.trunc(Number(vote2Value));
     console.log("casted vote sum: ",totalCastedVote)
     if ((totalCastedVote === 10 && currentBattle.voteType === 'split') || (totalCastedVote === 1 && currentBattle.voteType === 'binary') ) {
       setCheckRange(false);
@@ -142,7 +142,7 @@ const ActiveRound = ({ activeRound, currentBattle, user }) => {
             <div>
               {checkRange ? (
                 <p className="text-red-600 text-xs font-extralight">
-                  Total votes should equal 10
+                  Total votes should equal 10 & Single digits 0-10
                 </p>
               ) : (
                 <></>
