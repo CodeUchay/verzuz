@@ -224,7 +224,7 @@ console.log("votes for id: ", querySnapshot);
             {collapseVotes ? (<MdOutlineKeyboardArrowDown  size={25}/>):(<MdOutlineKeyboardArrowRight  size={25}/>)}
             </button>
           </div>
-          <VotesPerRound allVotes={allVotes} />
+          {/* <VotesPerRound allVotes={allVotes} /> */}
           <hr />
           {/* Voting Table */}
           {collapseVotes ? ( <table className="mt-1 mx-3 text-xs">
