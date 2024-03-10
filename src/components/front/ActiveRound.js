@@ -108,8 +108,8 @@ const ActiveRound = ({ activeRound, currentBattle, user }) => {
           </>
         ) : (
           <>
-            <div className="flex flex-row justify-center items-center gap-4">
-              <div>
+            <div className="p-20 flex flex-row justify-center items-center gap-4">
+              <div className="flex flex-column justify-center items-center text-center">
                 <label htmlFor="vote1Value" className="block text-sm ">
                   {currentBattle.opponent1}
                 </label>
@@ -122,7 +122,7 @@ const ActiveRound = ({ activeRound, currentBattle, user }) => {
                 />
               </div>
               <span className="mt-10 text-md font-bold">Vs</span>
-              <div>
+              <div className="flex flex-column justify-center items-center text-center">
                 <label htmlFor="vote2Value" className="block text-sm  ">
                   {currentBattle.opponent2}
                 </label>

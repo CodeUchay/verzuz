@@ -6,6 +6,7 @@ import { addDoc, collection, getDocs, query, where, } from "firebase/firestore";
 import { db } from "../../firebase";
 import moment from 'moment';
 import ActiveRound from './ActiveRound'
+import VotesPerRound from "./VotesPerRound";
 
 function Vote() {
   let { id } = useParams();
@@ -196,7 +197,7 @@ console.log("votes for id: ", querySnapshot);
             <span className="border-b px-20 py-2 font-bold">Total Votes</span>
           </h1>
           <hr />
-
+          
           {opponent1Votes > 0 || opponent2Votes > 0 ? (
             <div className="">
               <div className="flex justify-center items-center mt-3">
@@ -223,6 +224,7 @@ console.log("votes for id: ", querySnapshot);
             {collapseVotes ? (<MdOutlineKeyboardArrowDown  size={25}/>):(<MdOutlineKeyboardArrowRight  size={25}/>)}
             </button>
           </div>
+          <VotesPerRound allVotes={allVotes} />
           <hr />
           {/* Voting Table */}
           {collapseVotes ? ( <table className="mt-1 mx-3 text-xs">
