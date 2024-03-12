@@ -13,8 +13,6 @@ const ActiveRound = ({ activeRound, currentBattle, user }) => {
 
   console.log("actif", activeRound);
   const active = activeRound;
-
-
   
   const castVote = async (e) => {
     e.preventDefault();
@@ -108,8 +106,8 @@ const ActiveRound = ({ activeRound, currentBattle, user }) => {
           </>
         ) : (
           <>
-            <div className="p-20 flex flex-row justify-center items-center gap-4">
-              <div className="flex flex-column justify-center items-center text-center">
+            <div className="px-20 flex flex-row justify-center items-center gap-4">
+              <div className="flex justify-center items-center text-center flex-col">
                 <label htmlFor="vote1Value" className="block text-sm ">
                   {currentBattle.opponent1}
                 </label>
@@ -122,13 +120,13 @@ const ActiveRound = ({ activeRound, currentBattle, user }) => {
                 />
               </div>
               <span className="mt-10 text-md font-bold">Vs</span>
-              <div className="flex flex-column justify-center items-center text-center">
+              <div className="flex flex-col justify-center items-center text-center">
                 <label htmlFor="vote2Value" className="block text-sm  ">
                   {currentBattle.opponent2}
                 </label>
                 <input
                   type="number"
-                  className="mt-2 appearance-none text-black rounded-md block w-20 px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-orange-100 focus:ring-orange-200  ring-1 "
+                  className="mt-2 appearance-none text-black rounded-md block w-20 px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-orange-100 focus:ring-orange-200  ring-1"
                   onChange={(e) => setVote2Value(e.target.value)}
                   value={vote2Value}
                   required
