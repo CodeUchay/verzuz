@@ -215,7 +215,7 @@ function Vote() {
     if (currentBattle) {
       getAllVotes();
     }
-  }, [currentBattle, getBattles, getAllVotes]);
+  }, [currentBattle]);
 
   return (
     <div>
