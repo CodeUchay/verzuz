@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { GiBoxingGlove } from "react-icons/gi";
+import { GoDotFill } from "react-icons/go";
 import {
   MdOutlineKeyboardArrowRight,
   MdOutlineKeyboardArrowDown,
@@ -311,7 +312,7 @@ function Vote() {
               {/* Voting Table */}
               {collapseVotes ? (
                     <div>
-                    { Object.keys(roundVotes).map((round, index) => (
+                    { Object.keys(roundVotes).reverse().map((round, index) => (
                       <div key={index}>
                         <div className="flex justify-center items-center">
                         <h2 className='border-b m-2 px-2 py-1  font-semibold'>{round.charAt(0).toLocaleUpperCase() + round.substring(1)}</h2>
@@ -385,9 +386,27 @@ function Vote() {
                           <td className="p-3 text-xs">
                             {currentBattle.rounds[index].name}
                           </td>
-                          <td className="p-3">{round.totals[0]}</td>
-                          <td className="p-3">{round.totals[1]}</td>
-                        </tr>
+                          <td className="p-3">
+  <div className="flex items-center">
+    {round.totals[0]} 
+    {round.totals[0] > round.totals[1] && (
+      <span className="rounded text-green-600 text-lg inline-flex ml-1">
+        <GoDotFill size={5} />
+      </span>
+    )}
+  </div>
+</td>
+<td className="p-3">
+  <div className="flex items-center">
+    {round.totals[1]} 
+    {round.totals[0] < round.totals[1] && (
+      <span className="rounded text-green-600 text-lg inline-flex ml-1">
+        <GoDotFill size={5} />
+      </span>
+    )}
+  </div>
+</td>
+ </tr>
                       ))
                     
                     ) : (
