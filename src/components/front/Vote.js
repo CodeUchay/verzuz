@@ -10,8 +10,6 @@ import { db } from "../../firebase";
 import moment from "moment";
 import ActiveRound from "./ActiveRound";
 import VotesPerRound from "./VotesPerRound";
-import { Helmet } from 'react-helmet';
-import logo from '../../assets/logo.jpg';
 
 function Vote() {
   let { id } = useParams();
@@ -225,14 +223,6 @@ function Vote() {
 
   return (
     <div>
-      <Helmet>
-        <meta property="og:title" content={playerNames || "Battle: Player 1 vs Player 2"} />
-        <meta property="og:description" content={`Vote for the best between ${playerNames}!`} />
-        <meta property="og:image" content={logo}/>
-        <meta property="og:url" content={`https://playverzuz.com`}/>
-        <meta name="twitter:title" content={playerNames || "Battle: Player 1 vs Player 2"} />
-        <meta name="twitter:description" content={`Vote for the best between ${playerNames}!`} />
-      </Helmet>
       <nav className="p-5 px-4 shadow-sm shadow-gray-300 flex justify-between items-center border-b-2 border-b-gray-400 '">
         <Link
           to="/"
@@ -243,9 +233,9 @@ function Vote() {
         <div>
           {user ? (
             <>
-              {/* <button  onClick={(e) => logout(e)} className="bg-red-500 px-2 py-1 rounded mr-2">
+              <button  onClick={(e) => logout(e)} className="bg-red-500 px-2 py-1 rounded mr-2">
               logout
-            </button>          */}
+            </button>         
               <span className="bg-orange-600 px-2 py-1 rounded text-white">
                 Welcome, {user.username}
               </span>
